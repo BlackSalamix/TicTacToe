@@ -19,12 +19,13 @@ body {
 	padding: 30px;
 }
 .wrapper {
+	position: relative;
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
 	align-items: center;
-	width: 60vw;
-	height: 60vh;
+	width: 80vw;
+	max-height: 70vh;
 	margin-left: auto;
 	margin-right: auto;
 	border-radius: 40px;
@@ -35,7 +36,22 @@ body {
 	display: flex;
 	flex-direction: column;
 	align-items: center;
+	flex-wrap: nowrap;
 	margin: 30px;
+	.options{
+		position: absolute;
+		top: 30px;
+		right: 30px;
+		.show-options{
+			background-color: transparent;
+			border: none;
+			cursor: pointer;
+			font-size: 20px;
+		}
+		.list{
+			display: none;
+		}
+	}
 	.buttons {
 		.button {
 			padding: 8px 16px;
@@ -107,7 +123,7 @@ body {
 			opacity: 0;
 			width: 210px;
 			height: 10px;
-			background-color: $winingLine;
+			background-color: $winningLine;
 			box-shadow: 5px 5px 20px $black;
 			border-radius: 10px;
 			z-index: 100;
