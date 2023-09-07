@@ -28,6 +28,7 @@ body {
   align-items: center;
   width: 80vw;
   min-width: 250px;
+  max-width: 650px;
   max-height: 60vh;
   min-height: 500px;
   margin-left: auto;
@@ -46,14 +47,16 @@ body {
 }
 .settings .options {
   position: absolute;
-  top: 30px;
-  right: 30px;
+  top: 0px;
+  right: 0px;
 }
 .settings .options .show-options {
   background-color: transparent;
   border: none;
   cursor: pointer;
-  font-size: 20px;
+  font-size: 30px;
+  margin: 15px;
+  color: rgb(0, 0, 0);
 }
 .settings .options .list {
   display: none;
@@ -203,5 +206,10 @@ body {
   to {
     opacity: 1;
     scale: 1;
+  }
+}
+@media (min-width: 650px) {
+  .settings .options .show-options {
+    margin: 25px;
   }
 }/*# sourceMappingURL=style.css.map */

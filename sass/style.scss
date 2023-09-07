@@ -26,6 +26,7 @@ body {
 	align-items: center;
 	width: 80vw;
 	min-width: 250px;
+	max-width: 650px;
 	max-height: 60vh;
 	min-height: 500px;
 	margin-left: auto;
@@ -42,14 +43,16 @@ body {
 	margin: 30px;
 	.options{
 		position: absolute;
-		top: 30px;
-		right: 30px;
+		top: 0px;
 		.show-options{
 			background-color: transparent;
 			border: none;
 			cursor: pointer;
-			font-size: 20px;
+			font-size: 30px;
+			margin: 15px;
+			color: $black;
 		}
+		right: 0px;
 		.list{
 			display: none;
 		}
@@ -203,5 +206,12 @@ body {
 	to {
 		opacity: 1;
 		scale: 1;
+	}
+}
+
+
+@media (min-width: 650px){
+	.settings .options .show-options{
+		margin: 25px;
 	}
 }
