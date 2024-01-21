@@ -32,6 +32,7 @@ const Player = (name, sign) => {
 };
 
 const ControlFlow = (() => {
+	Gameboard.setBoard()
 	document.querySelectorAll(".field").forEach((e) => {
 		e.classList.add("not-active");
 	});
