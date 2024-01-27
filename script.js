@@ -32,22 +32,26 @@ const Player = (name, sign) => {
 };
 
 const ControlFlow = (() => {
-	const AI = true
-	Gameboard.setBoard()
+	let AI = false;
+	Gameboard.setBoard();
 	document.querySelectorAll(".field").forEach((e) => {
 		e.classList.add("not-active");
 	});
 	const popup = document.querySelector(".info");
-	let name1 = "X";
-	let name2 = "O";
+	let name1 = "Player X";
+	let name2 = "Player O";
 	const player1 = Player(name1, "x");
 	const player2 = Player(name2, "o");
+	const preparingAI = () => {
+		if (AI) {
+			if (!(player1.getName() == "AI" || player2.getName() == "AI")) {
+				player2.setName("AI");
+			}
+		}
+	};
 
-	if(AI){
-		player2.setName('AI')
-	}
-	
 	const startGame = () => {
+		tour = player1.getName();
 		document.querySelectorAll(".field").forEach((e) => {
 			e.classList.remove("not-active");
 		});
@@ -66,6 +70,10 @@ const ControlFlow = (() => {
 			player2.setName(name2Temp);
 			document.querySelector(".second-player-name").innerText = name2Temp;
 		}
+		if (getTour() == "AI") {
+			Gameboard.setBoard();
+			addSign();
+		}
 	};
 
 	const restartGame = () => {
@@ -73,8 +81,11 @@ const ControlFlow = (() => {
 		DisplayController.clearBoard();
 		popup.classList.remove("info-active");
 		tour = player1.getName();
-		player1.setName("X");
-		player2.setName("O");
+		if (!AI) {
+			player1.setName("Player X");
+			player2.setName("Player O");
+		}
+		preparingAI();
 		document.querySelectorAll(".field").forEach((e) => {
 			e.classList.add("not-active");
 		});
@@ -106,30 +117,36 @@ const ControlFlow = (() => {
 	};
 
 	const addSign = (e) => {
-		const field = e.target.firstElementChild;
-		if (isFieldEmpty(field)) {
-			if (getTour() === player1.getName()) {
-				DisplayController.addSign(field, player1.getSign());
-			} else {
-				DisplayController.addSign(field, player2.getSign());
-			}
-			Gameboard.clearBoard();
-			Gameboard.setBoard();
-			checkWin();
-			changeTour();
-			if(AI){
-				let wynik = aiTurn(player2.getSign())
-				console.log("Tablica ktora zwrocila funckja aiTurn", wynik);
-				DisplayController.updateBoardForAI(wynik, player2.getSign())
+		if (e) {
+			const field = e.target.firstElementChild;
+			if (isFieldEmpty(field)) {
+				if (getTour() === player1.getName()) {
+					DisplayController.addSign(field, player1.getSign());
+				} else {
+					DisplayController.addSign(field, player2.getSign());
+				}
 				Gameboard.clearBoard();
 				Gameboard.setBoard();
 				checkWin();
 				changeTour();
 			}
 		}
+		if (AI) {
+			let sign;
+			if (player1.getName() == "AI") sign = "x";
+			else sign = "o";
+			let wynik = aiTurn(sign);
+			if (!wynik) return;
+			console.log("Tablica ktora zwrocila funckja aiTurn", wynik);
+			DisplayController.updateBoardForAI(wynik, sign);
+			Gameboard.clearBoard();
+			Gameboard.setBoard();
+			checkWin();
+			changeTour();
+		}
 	};
 
-// Checking if somewhere is win
+	// Checking if somewhere is win
 
 	const checkRow = () => {
 		for (let i = 0; i < 3; i++) {
@@ -208,26 +225,40 @@ const ControlFlow = (() => {
 	document.querySelectorAll(".field").forEach((field) => {
 		field.addEventListener("click", addSign);
 	});
+	document.querySelector(".ai").addEventListener("click", () => {
+		AI ? (AI = false) : (AI = true);
+		if (AI) preparingAI();
+		console.log('AI właczone?: ', AI);
+	});
+	document.querySelector(".change").addEventListener("click", () => {
+		if (player2.getName() == "AI") {
+			player1.setName("AI");
+			player2.setName("Player O");
+		} else {
+			player1.setName("Player O");
+			player2.setName("AI");
+		}
+		console.log(player1.getName(), player2.getName());
+	});
 })();
 
 const DisplayController = (() => {
-	const updateBoardForAI = (newBoard, sign) =>{
-		const tempBoard1 = Gameboard.getBoard().flat()
-		const tempBoard2 = newBoard.flat()
-		let index = 0
+	const updateBoardForAI = (newBoard, sign) => {
+		const tempBoard1 = Gameboard.getBoard().flat();
+		const tempBoard2 = newBoard.flat();
+		let index = 0;
 		for (let i = 0; i < tempBoard1.length; i++) {
-			if(tempBoard1[i] != tempBoard2[i]) break
-			index++
+			if (tempBoard1[i] != tempBoard2[i]) break;
+			index++;
 		}
-		if(index == 9){
-			index = 8
-			console.log('BLAD, funkcja nic nie zwrocila');
+		if (index == 9) {
+			index = 8;
+			console.log("BLAD, funkcja nic nie zwrocila");
 		}
-		const field = document.querySelectorAll('.sign')[index]
-		field.innerText = sign
+		const field = document.querySelectorAll(".sign")[index];
+		field.innerText = sign;
 		field.classList.add("taken-sign");
-
-	}
+	};
 	const addSign = (field, sign) => {
 		field.innerText = sign;
 		field.classList.add("taken-sign");
@@ -240,6 +271,6 @@ const DisplayController = (() => {
 	return {
 		addSign,
 		clearBoard,
-		updateBoardForAI
+		updateBoardForAI,
 	};
 })();
