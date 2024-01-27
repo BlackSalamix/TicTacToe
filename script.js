@@ -32,6 +32,7 @@ const Player = (name, sign) => {
 };
 
 const ControlFlow = (() => {
+	const AI = true
 	Gameboard.setBoard()
 	document.querySelectorAll(".field").forEach((e) => {
 		e.classList.add("not-active");
@@ -42,6 +43,10 @@ const ControlFlow = (() => {
 	const player1 = Player(name1, "x");
 	const player2 = Player(name2, "o");
 
+	if(AI){
+		player2.setName('AI')
+	}
+	
 	const startGame = () => {
 		document.querySelectorAll(".field").forEach((e) => {
 			e.classList.remove("not-active");
@@ -67,7 +72,7 @@ const ControlFlow = (() => {
 		Gameboard.clearBoard();
 		DisplayController.clearBoard();
 		popup.classList.remove("info-active");
-		tour = "player1";
+		tour = player1.getName();
 		player1.setName("X");
 		player2.setName("O");
 		document.querySelectorAll(".field").forEach((e) => {
@@ -88,12 +93,12 @@ const ControlFlow = (() => {
 		document.querySelector(".start-game").addEventListener("click", startGame);
 	};
 
-	let tour = "player1";
+	let tour = player1.getName();
 	const getTour = () => tour;
 
 	const changeTour = () => {
-		if (tour === "player1") tour = "player2";
-		else tour = "player1";
+		if (tour === player1.getName()) tour = player2.getName();
+		else tour = player1.getName();
 	};
 
 	const isFieldEmpty = (field) => {
@@ -103,7 +108,7 @@ const ControlFlow = (() => {
 	const addSign = (e) => {
 		const field = e.target.firstElementChild;
 		if (isFieldEmpty(field)) {
-			if (getTour() === "player1") {
+			if (getTour() === player1.getName()) {
 				DisplayController.addSign(field, player1.getSign());
 			} else {
 				DisplayController.addSign(field, player2.getSign());
@@ -112,9 +117,17 @@ const ControlFlow = (() => {
 			Gameboard.setBoard();
 			checkWin();
 			changeTour();
+			if(AI){
+				let wynik = aiTurn(player2.getSign())
+				console.log("Tablica ktora zwrocila funckja aiTurn", wynik);
+				DisplayController.updateBoardForAI(wynik, player2.getSign())
+				Gameboard.clearBoard();
+				Gameboard.setBoard();
+				checkWin();
+				changeTour();
+			}
 		}
 	};
-
 
 // Checking if somewhere is win
 
@@ -170,7 +183,7 @@ const ControlFlow = (() => {
 	const checkWin = () => {
 		if (checkRow() || checkCol() || checkDiagonals()) {
 			let winner = "";
-			if (tour === "player1") winner = player1.getName();
+			if (tour === player1.getName()) winner = player1.getName();
 			else winner = player2.getName();
 			popup.classList.add("info-active");
 			popup.innerText = `The winner is ${winner}!`;
@@ -198,6 +211,23 @@ const ControlFlow = (() => {
 })();
 
 const DisplayController = (() => {
+	const updateBoardForAI = (newBoard, sign) =>{
+		const tempBoard1 = Gameboard.getBoard().flat()
+		const tempBoard2 = newBoard.flat()
+		let index = 0
+		for (let i = 0; i < tempBoard1.length; i++) {
+			if(tempBoard1[i] != tempBoard2[i]) break
+			index++
+		}
+		if(index == 9){
+			index = 8
+			console.log('BLAD, funkcja nic nie zwrocila');
+		}
+		const field = document.querySelectorAll('.sign')[index]
+		field.innerText = sign
+		field.classList.add("taken-sign");
+
+	}
 	const addSign = (field, sign) => {
 		field.innerText = sign;
 		field.classList.add("taken-sign");
@@ -210,5 +240,6 @@ const DisplayController = (() => {
 	return {
 		addSign,
 		clearBoard,
+		updateBoardForAI
 	};
 })();
