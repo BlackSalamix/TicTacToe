@@ -35,27 +35,71 @@ body {
 	background-color: $mainColor;
 	overflow: hidden;
 }
+.options {
+	position: absolute;
+	display: none;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	width: 100%;
+	height: 100%;
+	border-radius: 40px;
+	background-color: $mainColor;
+	overflow: hidden;
+	z-index: 1;
+	
+    &-active {
+		animation: scale-up-tr 0.4s cubic-bezier(0.390, 0.575, 0.565, 1.000) both;
+		display: flex;
+	}
+	.option {
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		align-items: center;
+		margin: 20px;
+		background-color: $secondaryColor;
+		border-radius: 40px;
+		cursor: pointer;
+		.icon {
+			font-size: 60px;
+			margin: 35px;
+		}
+		.fa-robot {
+			margin: 24px;
+		}
+		.option-name {
+			position: relative;
+			left: 5px;
+			font-size: 20px;
+			font-weight: 600;
+			letter-spacing: 3px;
+			margin-bottom: 30px;
+		}
+		.option-image {
+			display: flex;
+			align-items: center;
+		}
+	}
+}
+
 .settings {
 	display: flex;
 	flex-direction: column;
 	align-items: center;
 	flex-wrap: nowrap;
 	margin: 30px;
-	.options{
+	.show-options-btn {
 		position: absolute;
 		top: 0px;
-		.show-options{
-			background-color: transparent;
-			border: none;
-			cursor: pointer;
-			font-size: 30px;
-			margin: 15px;
-			color: $black;
-		}
+		background-color: transparent;
+		border: none;
+		cursor: pointer;
+		font-size: 30px;
+		margin: 15px;
+		color: $black;
 		right: 0px;
-		.list{
-			display: none;
-		}
+		z-index: 1;
 	}
 	.buttons {
 		.button {
@@ -78,12 +122,34 @@ body {
 	}
 	.inputs {
 		display: flex;
+		align-items: center;
 		margin-bottom: 30px;
+		.change {
+			display: none;
+			font-size: 40px;
+			color: $black;
+			cursor: pointer;
+			&-active {
+				display: block;
+			}
+		}
 		.input-box {
 			display: flex;
 			flex-direction: column;
 			align-items: center;
-			input {
+			.first-input {
+				&-not-active {
+					background-color: $notActive;
+					pointer-events: none;
+				}
+			}
+			.second-input {
+				&-not-active {
+					background-color: $notActive;
+					pointer-events: none;
+				}
+			}
+			.input {
 				width: 70%;
 				height: 25px;
 				margin-top: 5px;
@@ -209,9 +275,55 @@ body {
 	}
 }
 
-
-@media (min-width: 650px){
-	.settings .options .show-options{
+@media (min-width: 420px) {
+	.options .option .icon {
+		font-size: 80px;
+		margin: 40px;
+	}
+	.options .option .option-name {
+		font-size: 25px;
+		margin-bottom: 30px;
+	}
+	.options .option .fa-robot {
 		margin: 25px;
 	}
+}
+
+@media (min-width: 460px) {
+	.options .option .icon {
+		font-size: 100px;
+	}
+	.options .option .option-name {
+		font-size: 30px;
+		margin-bottom: 20px;
+	}
+	.options .option .fa-robot {
+		margin: 21px;
+	}
+}
+
+@media (min-width: 650px) {
+	.settings .options .show-options {
+		margin: 25px;
+	}
+	.options .option .icon {
+		font-size: 140px;
+	}
+	.options .option .fa-robot {
+		margin: 14px;
+	}
+}
+
+
+@keyframes scale-up-tr {
+    0% {
+		opacity: 0;
+        transform: scale(0.5);
+        transform-origin: 100% 0%;
+    }
+    100% {
+		opacity: 1;
+        transform: scale(1);
+        transform-origin: 100% 0%;
+    }
 }

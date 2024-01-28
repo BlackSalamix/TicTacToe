@@ -19,22 +19,35 @@
 			<h1 class="header__title">Tic-Tac-Toe</h1>
 		</header>
 		<section class="wrapper">
+			<div class="options ">
+					<div class="option pvp">
+						<div class="option-image">
+							<i class="fa-solid fa-user icon"></i>
+							<i class="fa-regular fa-user icon"></i>
+						</div>
+						<p class="option-name">PvP</p>
+					</div>
+					<div class="option pvc">
+						<div class="option-image">						
+							<i class="fa-solid fa-user icon"></i>										
+							<i class="fa-solid fa-robot icon"></i>
+						</div>
+						<p class="option-name">PvC</p>
+					</div>
+			</div>
 			<div class="settings">
-				<div class="options">
-					<button class="show-options">
-						<i class="fa-solid fa-gear"></i>
-					</button>
-					<ul class="list">
-						<li class="list__item">P vs P</li>
-						<li class="list__item">P vs AI</li>
-					</ul>
-				</div>
+				<button class="show-options-btn">
+					<i class="fa-solid fa-gear"></i>
+				</button>
 				<div class="inputs">
 					<div class="input-box">
 						<label id="player-name" class="player-name first-player-name"
 							>Player X</label
 						>
 						<input type="text" id="player-name" class="input first-input" />
+					</div>
+					<div class="change">
+						<i class="fa-solid fa-arrows-rotate"></i>
 					</div>
 					<div class="input-box">
 						<label id="player-name" class="player-name second-player-name"
@@ -90,5 +103,6 @@
 			</div>
 		</section>
 		<script src="./script.js"></script>
+		<script src="./minimax.js"></script>
 	</body>
 </html>
