@@ -38,6 +38,53 @@ body {
   overflow: hidden;
 }
 
+.options {
+  position: absolute;
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  border-radius: 40px;
+  background-color: rgb(29, 41, 66);
+  overflow: hidden;
+  z-index: 1;
+}
+.options-active {
+  animation: scale-up-tr 0.4s cubic-bezier(0.39, 0.575, 0.565, 1) both;
+  display: flex;
+}
+.options .option {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: 20px;
+  background-color: rgb(41, 58, 94);
+  border-radius: 40px;
+  cursor: pointer;
+}
+.options .option .icon {
+  font-size: 60px;
+  margin: 35px;
+}
+.options .option .fa-robot {
+  margin: 24px;
+}
+.options .option .option-name {
+  position: relative;
+  left: 5px;
+  font-size: 20px;
+  font-weight: 600;
+  letter-spacing: 3px;
+  margin-bottom: 30px;
+}
+.options .option .option-image {
+  display: flex;
+  align-items: center;
+}
+
 .settings {
   display: flex;
   flex-direction: column;
@@ -45,21 +92,17 @@ body {
   flex-wrap: nowrap;
   margin: 30px;
 }
-.settings .options {
+.settings .show-options-btn {
   position: absolute;
   top: 0px;
-  right: 0px;
-}
-.settings .options .show-options {
   background-color: transparent;
   border: none;
   cursor: pointer;
   font-size: 30px;
   margin: 15px;
   color: rgb(0, 0, 0);
-}
-.settings .options .list {
-  display: none;
+  right: 0px;
+  z-index: 1;
 }
 .settings .buttons .button {
   padding: 8px 16px;
@@ -80,14 +123,32 @@ body {
 }
 .settings .inputs {
   display: flex;
+  align-items: center;
   margin-bottom: 30px;
+}
+.settings .inputs .change {
+  display: none;
+  font-size: 40px;
+  color: rgb(0, 0, 0);
+  cursor: pointer;
+}
+.settings .inputs .change-active {
+  display: block;
 }
 .settings .inputs .input-box {
   display: flex;
   flex-direction: column;
   align-items: center;
 }
-.settings .inputs .input-box input {
+.settings .inputs .input-box .first-input-not-active {
+  background-color: rgba(255, 255, 255, 0.644);
+  pointer-events: none;
+}
+.settings .inputs .input-box .second-input-not-active {
+  background-color: rgba(255, 255, 255, 0.644);
+  pointer-events: none;
+}
+.settings .inputs .input-box .input {
   width: 70%;
   height: 25px;
   margin-top: 5px;
@@ -208,8 +269,51 @@ body {
     scale: 1;
   }
 }
+@media (min-width: 420px) {
+  .options .option .icon {
+    font-size: 80px;
+    margin: 40px;
+  }
+  .options .option .option-name {
+    font-size: 25px;
+    margin-bottom: 30px;
+  }
+  .options .option .fa-robot {
+    margin: 25px;
+  }
+}
+@media (min-width: 460px) {
+  .options .option .icon {
+    font-size: 100px;
+  }
+  .options .option .option-name {
+    font-size: 30px;
+    margin-bottom: 20px;
+  }
+  .options .option .fa-robot {
+    margin: 21px;
+  }
+}
 @media (min-width: 650px) {
   .settings .options .show-options {
     margin: 25px;
+  }
+  .options .option .icon {
+    font-size: 140px;
+  }
+  .options .option .fa-robot {
+    margin: 14px;
+  }
+}
+@keyframes scale-up-tr {
+  0% {
+    opacity: 0;
+    transform: scale(0.5);
+    transform-origin: 100% 0%;
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+    transform-origin: 100% 0%;
   }
 }/*# sourceMappingURL=style.css.map */

@@ -95,8 +95,10 @@ const ControlFlow = (() => {
 		document.querySelectorAll(".sign").forEach((e) => {
 			e.classList.remove("taken-sign");
 		});
-		document.querySelector(".first-player-name").innerText = "Player X";
-		document.querySelector(".second-player-name").innerText = "Player O";
+		if(!AI){
+			document.querySelector(".first-player-name").innerText = "Player X";
+			document.querySelector(".second-player-name").innerText = "Player O";
+		}
 		document.querySelector(".start-game").classList.remove("not-active");
 		document.querySelector(".first-input").classList.remove("not-active");
 		document.querySelector(".second-input").classList.remove("not-active");
@@ -225,21 +227,52 @@ const ControlFlow = (() => {
 	document.querySelectorAll(".field").forEach((field) => {
 		field.addEventListener("click", addSign);
 	});
-	document.querySelector(".ai").addEventListener("click", () => {
-		AI ? (AI = false) : (AI = true);
-		if (AI) preparingAI();
+
+
+	const options = document.querySelector('.options')
+	const change = document.querySelector('.change')
+	const first_input = document.querySelector('.first-input')
+	const second_input = document.querySelector('.second-input')
+	document.querySelector('.pvp').addEventListener('click', ()=> {
+		AI = false
+		player1.setName('Player X')
+		player2.setName('Player O')
+		options.classList.toggle('options-active')
+		change.classList.remove('change-active')
+		first_input.classList.remove('first-input-not-active')
+		second_input.classList.remove('second-input-not-active')
+		document.querySelector(".first-player-name").innerText = player1.getName();
+		document.querySelector(".second-player-name").innerText = player2.getName();
+	})
+		
+	document.querySelector(".pvc").addEventListener("click", () => {
+		AI = true
+		preparingAI()
 		console.log('AI właczone?: ', AI);
+		options.classList.toggle('options-active')
+		change.classList.add('change-active')
+		first_input.classList.remove('first-input-not-active')
+		second_input.classList.add('second-input-not-active')
+		document.querySelector(".first-player-name").innerText = player1.getName();
+		document.querySelector(".second-player-name").innerText = player2.getName();
 	});
 	document.querySelector(".change").addEventListener("click", () => {
 		if (player2.getName() == "AI") {
 			player1.setName("AI");
 			player2.setName("Player O");
 		} else {
-			player1.setName("Player O");
+			player1.setName("Player X");
 			player2.setName("AI");
 		}
 		console.log(player1.getName(), player2.getName());
+		first_input.classList.toggle('first-input-not-active')
+		second_input.classList.toggle('second-input-not-active')
+		document.querySelector(".first-player-name").innerText = player1.getName();
+		document.querySelector(".second-player-name").innerText = player2.getName();
 	});
+	document.querySelector('.show-options-btn').addEventListener('click', ()=>{
+		options.classList.toggle('options-active')
+	})
 })();
 
 const DisplayController = (() => {
