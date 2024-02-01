@@ -62,6 +62,8 @@ const ControlFlow = (() => {
 		document.querySelector(".start-game").classList.add("not-active");
 		document.querySelector(".first-input").classList.add("not-active");
 		document.querySelector(".second-input").classList.add("not-active");
+		document.querySelector('.show-options-btn').classList.add("not-active")
+		document.querySelector('.change').classList.add("change-not-active")
 		if (name1Temp !== "") {
 			player1.setName(name1Temp);
 			document.querySelector(".first-player-name").innerText = name1Temp;
@@ -102,6 +104,8 @@ const ControlFlow = (() => {
 		document.querySelector(".start-game").classList.remove("not-active");
 		document.querySelector(".first-input").classList.remove("not-active");
 		document.querySelector(".second-input").classList.remove("not-active");
+		document.querySelector('.show-options-btn').classList.remove("not-active")
+		document.querySelector('.change').classList.remove("change-not-active")
 
 		document.querySelector(".start-game").addEventListener("click", startGame);
 	};
@@ -117,7 +121,15 @@ const ControlFlow = (() => {
 	const isFieldEmpty = (field) => {
 		if (field.innerText === "") return true;
 	};
-
+	const isBoardEmpty = () => {
+		let emptyFields = 0
+			for (let i = 0; i < 3; i++) {
+				for (let j = 0; j < 3; j++) {
+					if(Gameboard.getBoard()[i][j] == '')emptyFields++					
+				}
+			}
+		if(emptyFields == 9)return true
+	}
 	const addSign = (e) => {
 		if (e) {
 			const field = e.target.firstElementChild;
@@ -135,9 +147,15 @@ const ControlFlow = (() => {
 		}
 		if (AI) {
 			let sign;
+			let wynik
 			if (player1.getName() == "AI") sign = "x";
 			else sign = "o";
-			let wynik = aiTurn(sign);
+			if(isBoardEmpty()){
+				wynik = structuredClone(Gameboard.getBoard())
+				wynik[0][0] = sign
+			}
+			else wynik = aiTurn(sign);
+			console.log(wynik);
 			if (!wynik) return;
 			console.log("Tablica ktora zwrocila funckja aiTurn", wynik);
 			DisplayController.updateBoardForAI(wynik, sign);

@@ -132,6 +132,10 @@ body {
 			&-active {
 				display: block;
 			}
+			&-not-active {
+				background-color: none;
+				pointer-events: none;
+			}
 		}
 		.input-box {
 			display: flex;

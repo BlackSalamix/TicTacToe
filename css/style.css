@@ -135,6 +135,10 @@ body {
 .settings .inputs .change-active {
   display: block;
 }
+.settings .inputs .change-not-active {
+  background-color: none;
+  pointer-events: none;
+}
 .settings .inputs .input-box {
   display: flex;
   flex-direction: column;
